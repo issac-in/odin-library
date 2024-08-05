@@ -10,3 +10,32 @@
 * {
     font-family: "Source Sans 3", sans-serif;
 }
+
+:root {
+    --black: #000;
+    --blue: #3C5B7C;
+    --ghost-white: #FCF9FD; 
+    --green: #106534;
+    --grey: #565656;
+    --purple: #83339E;
+    --red: #B30018;
+    --transparent-purple: #83339E33;
+    --white: #fff;
+}
+
+/* #region Body */
+body {
+    background-color: var(--ghost-white);
+
+    svg {
+        fill: currentColor;
+    }
+}
+/* #endregion */
+
+/* #region Header */
+header {
+    position: sticky;
+    top: 0;
+}
+/* #endregion */
