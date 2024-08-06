@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A library extension of the book example.">
-    <title>Library</title>
+    <title>The Archivist's Catalog</title>
     <link rel="stylesheet" href="./reset.css">
     <link rel="stylesheet" href="./styles.css">
     <link rel="icon" type="image/x-icon" href="./assets/icons/archive.svg">
@@ -65,32 +65,62 @@
         </defs>
     </svg>
     <header>
-        <h1>The Archivist's Catalog</h1>
-        <h2>Browse your catalog</h2>
-        <h2>Add a new book</h2>
-        <p>Anna Politkovskaya</p>
+        <div id="logo">
+            <svg viewbox="0 0 24 24">
+                <use href="#icon-archive"></use>
+            </svg>
+            <h1 class="full-text">The Archivist's Catalog</h1>
+            <h1 class="mid-text short-text">Archivist's Catalog</h1>
+        </div>
+        <div id="browse-and-add">
+            <h2 class="full-text">Browse your catalog</h2>
+            <h2 class="mid-text">Browse catalog</h2>
+            <h2 class="short-text mobile-text">Browse</h2>
+            <button class="std-height std-border">
+                <svg viewbox="0 0 24 24">
+                    <use href="#icon-book-plus"></use>
+                </svg>
+                <h2 class="full-text">Add a new book</h2>
+                <h2 class="mid-text">Add a book</h2>
+                <h2 class="short-text mobile-text">Add book</h2>
+            </button>
+        </div>
+        <div id="user-options">
+            <svg viewbox="0 0 24 24">
+                <use href="#icon-bell-outline"></use>
+            </svg>
+            <div id="user-profile">
+                <img src="./assets/users/anna-politkovskaya.avif" alt="User profile picture" width="42" height="42">
+                <p class="full-text">Anna Politkovskaya</p>
+                <p class="mid-text">Anna P.</p>
+                <p class="short-text">Anna</p>
+                <svg viewbox="0 0 24 24">
+                    <use href="#icon-menu-down"></use>
+                </svg>
+            </div>
+        </div>
     </header>
     <main>
         <div id="search-and-options">
-            <input type="text" placeholder="Search your catalog by book title, author, ISBN-13, year of publication, etc...">
-            <select name="" id="view">
+            <input type="text" placeholder="Search your catalog by book title, author, ISBN-13, year of publication, etc..." class="std-height std-border">
+            <select name="" id="view" class="std-height std-border">
                 <option selected value="">List view</option>
                 <option value="">Small grid view</option>
                 <option value="">Large grid view</option>
             </select>
-            <select name="" id="sort">
+            <select name="" id="sort" class="std-height std-border">
                 <option value="">Author A-Z</option>
                 <option value="">Recent</option>
                 <option value="">Title</option>
                 <option selected value="">Year of publication</option>
             </select>
-            <select name="" id="status">
+            <select name="" id="status" class="std-height std-border">
                 <option value="">All</option>
                 <option value="">Unread</option>
                 <option value="">Reading</option>
                 <option value="">Completed</option>
             </select>
-            <select name="" id="author-name">
+            <select name="" id="author-name" class="std-height std-border">
                 <option value="">All</option>
                 <option value="">Anna Politkovskaya</option>
             </select>

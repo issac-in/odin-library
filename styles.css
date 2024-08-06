@@ -23,19 +23,224 @@
     --white: #fff;
 }
 
+/* #region Typography */
+h1 {
+    font-size: 1.728rem;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+p {
+    font-size: 1rem;
+    font-weight: 500;
+}
+/* #endregion */
+
 /* #region Body */
 body {
     background-color: var(--ghost-white);
+    color: var(--black);
 
     svg {
         fill: currentColor;
     }
+
+    header, main > * {
+        padding: 0 3rem;
+    }
+}
+
+.std-height { height: 2.875rem; }
+
+.std-border {
+    border-width: 0.125rem;
+    border-style: solid;
+    border-radius: 0.75rem;
 }
 /* #endregion */
 
 /* #region Header */
+header, #logo, 
+#browse-and-add, #browse-and-add > button, 
+#user-options, #user-profile {
+    display: flex;
+    align-items: center;
+}
+
 header {
     position: sticky;
     top: 0;
+
+    background-color: var(--white);
+    box-shadow: 0 0.25rem 0.25rem 0 var(--transparent-purple);
+    height: 5.75rem;
+
+    justify-content: space-between;
+
+    #logo {
+        gap: 0.5rem;
+
+        svg {
+            width: 2.304rem;
+            height: 2.304rem;
+        }
+    }
+
+    #browse-and-add {
+        gap: 3.5rem;
+
+        button {
+            background-color: var(--white);
+            color: var(--purple);
+            border-color: var(--purple);
+
+            padding:0 1.25rem;
+
+            gap: 0.5rem;
+    
+            svg {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+        }
+    }
+
+    #user-options {
+        gap: 1.5rem;
+
+        > svg {
+            width: 1.917rem;
+            height: 1.917rem;
+        }
+
+        #user-profile {
+            gap: 0.5rem;
+
+            img {
+                width: 2.625rem;
+                height: 2.625rem;
+                border-radius: 50%;
+                margin-right: 0.625rem;
+            }
+
+            svg {
+                width: 1.8rem;
+                height: 1.8rem;
+            }
+        }
+    }
+
+}
+/* #endregion */
+
+/* #region Search-and-options*/
+#search-and-options {
+    background-color: var(--ghost-white);
+}
+/* #endregion */
+
+/* #region Catalog-display */
+#catalog-display {
+    background-color: var(--ghost-white);
+}
+/* #endregion */
+
+/* #region Media Queries */
+.mid-text, .short-text { display: none; }
+
+@media (max-width: 75em) {
+    .full-text { display: none; }
+    .mid-text { display: block; }
+}
+
+@media (max-width: 62.5em) {
+    .mid-text { display: none; }
+    .short-text { display: block; }
+}
+
+@media (max-width: 56.25em) {
+    body { 
+        header, main > * { padding: 0 1.5rem; }
+    }
+
+    header {
+        #browse-and-add { 
+            button { padding: 0 0.625rem; }
+            gap: 1rem; 
+        }
+
+        #user-options { 
+            gap: 0.5rem; 
+            #user-profile { gap: 0.1rem; }
+        }
+    }
+}
+
+@media (max-width: 46.875em) {
+    h1 { font-size: 1.2rem;}
+    h2 { font-size: 1rem;}
+
+    header {
+        /* Reduce SVG & image sizes */
+        #logo {
+            svg {
+                width: 1.7rem;
+                height: 1.7rem;
+            }
+        }
+    
+        #browse-and-add {
+            button {
+                svg {
+                    width: 1.2rem;
+                    height: 1.2rem;
+                }
+            }
+        }
+    
+        #user-options {
+            > svg {
+                width: 1.5rem;
+                height: 1.5rem;
+            }
+    
+            #user-profile {
+                img {
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 50%;
+                    margin-right: 0.31rem;
+                }
+        
+                svg {
+                    width: 1.5rem;
+                    height: 1.5rem;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 37.5em) {
+    .mobile-text { display: none; }
+    header { height: 4.5rem; }
+}
+
+@media (max-width: 26.5625em) {
+    h1 {
+        font-size: 1rem;
+        font-weight: 800;
+    }
+
+    body { 
+        header, main > * { padding: 0 1rem; }
+    }
+
+    header { height: 3.5rem; }
+    header #browse-and-add .std-border { border-width: 0; }
 }
 /* #endregion */
