@@ -62,6 +62,11 @@ body {
     border-radius: 0.75rem;
 }
 
+.std-bg {
+    background-color: transparent;
+    border: 0.125rem solid var(--grey);
+}
+
 svg {
     flex-shrink: 0;
 }
@@ -78,6 +83,7 @@ header, #logo,
 header {
     position: sticky;
     top: 0;
+    z-index: 1;
 
     background-color: var(--white);
     box-shadow: 0 0.25rem 0.25rem 0 var(--transparent-purple);
@@ -98,7 +104,7 @@ header {
         gap: 3.5rem;
 
         button {
-            background-color: var(--white);
+            background-color: transparent;
             color: var(--purple);
             border-color: var(--purple);
 
@@ -145,6 +151,94 @@ header {
 /* #region Search-and-options*/
 #search-and-options {
     background-color: var(--ghost-white);
+
+    padding-top: 1rem;
+    padding-bottom: 0.75rem;
+
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+#catalog-search-wrapper {
+    position: relative;
+    display: inline-block;
+    flex: 1 0 12.5rem;
+}
+
+#catalog-search-wrapper > svg {
+    width: 1.543rem;
+    height: 1.543rem;
+
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+#catalog-search {
+    appearance: none;
+    padding-left: 2.75rem;
+    
+    width: 100%;
+}
+
+#catalog-search::placeholder {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--grey);
+}
+
+#catalog-filters-wrapper {
+    display: flex;
+    gap: 0.75rem;
+}
+
+#catalog-filters-wrapper > button {
+    flex: none;
+
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#btn-filters > svg,
+#btn-sort > svg:first-child {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+#btn-sort > svg:last-child,
+#btn-status > svg,
+#btn-author-name > svg {
+    width: 1.201rem;
+    height: 1.201rem;
+}
+
+#btn-clear-all > svg {
+    width: 1.917rem;
+    height: 1.917rem;
+}
+
+#btn-filters {
+    padding-left: 0.563rem;
+    padding-right: 0.563rem;
+}
+
+#btn-sort,
+#btn-status,
+#btn-author-name {
+    padding-left: 0.563rem;
+    padding-right: 0.4rem;
+}
+
+#btn-clear-all {
+    border: none;
+    padding: 0;
 }
 /* #endregion */
 
@@ -158,16 +252,19 @@ header {
 .mid-text, .short-text { display: none; }
 
 @media (max-width: 75em) {
+    /* Shorten full texts to mid texts */
     .full-text { display: none; }
     .mid-text { display: block; }
 }
 
 @media (max-width: 62.5em) {
+    /* Shorten mid texts to short texts */
     .mid-text { display: none; }
     .short-text { display: block; }
 }
 
 @media (max-width: 56.25em) {
+    /* Reduce the horizontal padding and gaps */
     body { 
         header, main > * { padding: 0 1.5rem; }
     }
@@ -183,14 +280,20 @@ header {
             #user-profile { gap: 0.1rem; }
         }
     }
+
+    #search-and-options { gap: 1.33rem; }
+    #catalog-filters-wrapper { gap: 0.5rem; }
 }
 
 @media (max-width: 46.875em) {
+    /* Reduce font, SVG, and image sizes */
     h1 { font-size: 1.2rem;}
     h2 { font-size: 1rem;}
+    p, 
+    #catalog-search::placeholder,
+    #catalog-filters-wrapper > button { font-size: 0.833rem; }
 
     header {
-        /* Reduce SVG & image sizes */
         #logo {
             svg {
                 width: 1.7rem;
@@ -228,14 +331,57 @@ header {
             }
         }
     }
+
+    #catalog-search-wrapper {
+        /* Have to adjust flex-basis here as well to preserve intent */
+        flex-basis: 11.05rem; 
+    }
+    #catalog-search-wrapper > svg {
+        width: 1.285rem;
+        height: 1.285rem;
+    }
+    #btn-filters > svg,
+    #btn-sort > svg:first-child {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+    #btn-sort > svg:last-child,
+    #btn-status > svg,
+    #btn-author-name > svg {
+        width: 1rem;
+        height: 1rem;
+    }
+    #btn-clear-all > svg {
+        width: 1.597rem;
+        height: 1.597rem;
+    }
+}
+
+@media (max-width: 40em) {
+    /* Hide all filters buttons except for the general one. */
+    #catalog-filters-wrapper > .toggle-visibility { display: none; }
 }
 
 @media (max-width: 37.5em) {
+    /* Eliminate short text and only keep mobile text */
+    /* Decrease vertical height of items where possible */
     .mobile-text { display: none; }
     header { height: 4.5rem; }
+    .std-height { height: 2.25rem; }
+    /* Changing .std-height requires some SVGs to be adjusted. */
+    header #browse-and-add button { padding:0 0.401rem; }
+    #btn-filters {
+        padding-left: 0.375rem;
+        padding-right: 0.375rem;
+    }
+    /* Changing .std-height requires the search SVG position to be adjusted */
+    #catalog-search-wrapper > svg { left: 0.7rem; }
+    #catalog-search { padding-left: 2.15rem; }
 }
 
 @media (max-width: 26.5625em) {
+    /* Reduce fonts, padding, and vertical heights mobile */
+    /* The spirit is to make it mobile-friendly here */
     h1 {
         font-size: 1rem;
         font-weight: 800;
