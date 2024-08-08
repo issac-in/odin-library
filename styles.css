@@ -246,6 +246,7 @@ header {
 #catalog-display {
     background-color: var(--ghost-white);
     padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
 }
 
 .catalog-card {
@@ -255,6 +256,7 @@ header {
     border-radius: 0.75rem;
 
     padding: 1.5rem;
+    margin-bottom: 1.25rem;
 
     display: grid;
     grid-template-columns: max-content 1fr;
@@ -312,6 +314,10 @@ header {
 
     display: block;
 }
+
+.unread { color: var(--red); }
+.reading { color: var(--blue); }
+.completed { color: var(--green); }
 /* #endregion */
 
 /* #region Media Queries */
@@ -459,6 +465,7 @@ header {
     .catalog-card {
         box-shadow: 0.125rem 0.125rem 0.1875rem 0.0625rem var(--transparent-purple);
         padding: 0.75rem;
+        margin-bottom: 0.625rem;
         column-gap: 0.75rem;
     }
     .card-options {
@@ -492,7 +499,10 @@ header {
     header { height: 3.5rem; }
     header #browse-and-add .std-border { border-width: 0; }
 
-    #catalog-display { padding-top: 0.25rem; }
+    #catalog-display { 
+        padding-top: 0.25rem; 
+        padding-bottom: 0.25rem;
+    }
     .book-thumbnail {
         width: 5rem;
         height: auto;  
