@@ -312,9 +312,10 @@ header {
 
     padding: 0rem;
 
-    display: block;
+    display: block; 
 }
 
+.card-options .btn-invisible { display: none; }
 .unread { color: var(--red); }
 .reading { color: var(--blue); }
 .completed { color: var(--green); }

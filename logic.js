@@ -87,11 +87,6 @@ function displayCatalog() {
 /** 
  * Notes:
  * 1. createElement____ is a prefix AND always returns 'element'.
- * 
- * WARNING/FUTURE ISSUE(s): 
- * 1. There's currently no functionality for the status to adjust color 
- *    in the future, if the user edits a catalog card, by marking 
- *    a book as unread / reading / completed. 
 */
 
 /**
@@ -139,9 +134,11 @@ function createElementAccessibleSVG(viewBox, ariaLabelledBy, href) {
 /**
  * Part of the programmatic creation of a complete `<div class="catalog-card">`.
  * 
+ * @param {String} bookObjStatus (e.g. "Unread", "Reading", "Completed")
+ * @param {Element} status - The completely built out Element for book status
  * @returns a complete `<ul class="card-options">` with all options.
  */
-function createElementCardOptions() {
+function createElementCardOptions(bookObjStatus, status) {
     const optionSVGs = [
         {
             viewBox: "0 0 42 25",
@@ -175,16 +172,27 @@ function createElementCardOptions() {
     ];
     const element = createElementWithClass("ul", "card-options");
     for (let i = 0; i < 7; i++) {
-        const li = document.createElement("li");
-        const button = document.createElement("button");
-        const svg = createElementAccessibleSVG(
-            optionSVGs[i].viewBox,
-            optionSVGs[i].ariaLabelledBy,
-            optionSVGs[i].href
+        if (i == 0) {
+            const li = createElementOptionsButtons(
+                1, bookObjStatus, optionSVGs[i], optionSVGs[++i]
+            );
+            // Establish *subsequent* button visibility based on status updates
+            li.addEventListener("click", () => {
+                li.firstElementChild.classList.toggle("btn-invisible");
+                li.lastElementChild.classList.toggle("btn-invisible");
+                if (li.firstElementChild.classList.contains("btn-invisible")) {
+                    status.textContent = "Unread";
+                } else if (li.lastElementChild.classList.contains("btn-invisible")) {
+                    status.textContent = "Completed";
+                }
+            });
+
+            element.appendChild(li);
+            continue;
+        }
+        element.appendChild(
+            createElementOptionsButtons(0, bookObjStatus, optionSVGs[i])
         );
-        button.appendChild(svg);
-        li.appendChild(button);
-        element.appendChild(li);
     }
     return element;
 }
@@ -201,7 +209,7 @@ function createElementCatalogCard(bookObj) {
     const title = createElementWithClass("h3", "book-title", bookObj.title);
     const author = createElementWithClass("p", "book-author", bookObj.author);
     const status = createElementStatus(bookObj.status);
-    const options = createElementCardOptions();
+    const options = createElementCardOptions(bookObj.status, status);
 
     element.append(thumbnail, title, author, status, options);
     return element;
@@ -209,6 +217,54 @@ function createElementCatalogCard(bookObj) {
 
 /**
  * Part of the programmatic creation of a complete `<div class="catalog-card">`.
+ * 
+ * Flags:
+ * - 0: do nothing special 
+ * - 1: handle initial mark-as-unread & mark-as-completed buttons' creation 
+ * @param {Number} flag
+ * @param {String} bookObjStatus (e.g. "Unread", "Reading", "Completed")
+ * @param  {...any} optionSVGObjs (e.g. optionSVGs[0], optionSVGs[1], etc...)
+ * @returns `<li>` with direct child buttons equal to the # of args passed-in
+ */
+function createElementOptionsButtons(flag, bookObjStatus, ...optionSVGObjs) {
+    const element = document.createElement("li");
+    for (const optionSVGObj of optionSVGObjs) {
+        const button = document.createElement("button");
+        const svg = createElementAccessibleSVG(
+            optionSVGObj.viewBox,
+            optionSVGObj.ariaLabelledBy,
+            optionSVGObj.href
+        );
+        button.appendChild(svg);
+        switch (flag) {
+            case 1:
+                // Establish *initial* button visibility based on status.
+                switch (bookObjStatus.toLowerCase()) {
+                    case UNREAD:
+                    case READING:
+                        if (optionSVGObj.ariaLabelledBy === "mark-unread") {
+                            button.classList.toggle("btn-invisible");
+                        }
+                        break;
+                    case COMPLETED:
+                        if (optionSVGObj.ariaLabelledBy === "mark-completed") {
+                            button.classList.toggle("btn-invisible");
+                        }
+                        break;
+                } 
+                break;
+            case 0:
+                break;
+        }
+        element.appendChild(button);
+    }
+    return element;
+}
+
+/**
+ * Part of the programmatic creation of a complete `<div class="catalog-card">`.
+ * The initial code handles the first-time creation of the element.
+ * The subsequent code will allow the element to update properly.
  * 
  * @param {String} bookObjStatus
  * 
@@ -232,6 +288,31 @@ function createElementStatus(bookObjStatus) {
             element.classList.add("completed");
             break;
     }
+
+    const observer = new MutationObserver((mutationList) => {
+        for (const mutation of mutationList) {
+            switch (mutation.target.textContent.toLowerCase()) {
+                case UNREAD:
+                    mutation.target.classList.add("unread");
+                    mutation.target.classList.remove("reading");
+                    mutation.target.classList.remove("completed");
+                    break;
+                case READING:
+                    mutation.target.classList.remove("unread");
+                    mutation.target.classList.add("reading");
+                    mutation.target.classList.remove("completed");
+                    break;
+                case COMPLETED:
+                    mutation.target.classList.remove("unread");
+                    mutation.target.classList.remove("reading");
+                    mutation.target.classList.add("completed");
+                    break;
+            }
+        }
+    });
+    const config = { childList: true };
+    observer.observe(element, config);
+
     return element;
 }
 
